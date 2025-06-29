@@ -71,100 +71,10 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-5. Set up default users (admin, alfissen, and ouakkaha):
-```bash
-python manage.py setup_default_users
-```
-
-This will create the following default users:
-- Admin: username=`admin`, password=`admin123`
-- Alfissen: username=`alfissen`, password=`alfissen123`
-- Ouakkaha: username=`ouakkaha`, password=`ouakkaha123`
-
-6. Set up default products:
-```bash
-python manage.py setup_default_products
-```
-
-This will create:
-- Poussins products (assigned to Ouakkaha user)
-- Aliments Composés products for Volailles, Bovins, and Ovins categories (assigned to Alfissen user)
-
-7. If you need to reset all users to defaults:
-```bash
-python manage.py reset_users
-```
-
-8. Run the development server:
+5. Run the development server:
 ```bash
 python manage.py runserver
 ```
 
-9. Access the site at http://127.0.0.1:8000/
 
-## Usage
 
-### Admin
-- Log in with username: `admin` and password: `admin123`
-- Access the admin panel at `/admin/`
-- Manage all users, products, and orders
-- View comprehensive statistics on the admin dashboard
-
-### Alfissen (Feed Producers)
-- Log in with username: `alfissen` and password: `alfissen123`
-- Add and manage feed products
-- Process orders for their products
-- Purchase products from Ouakkaha sellers
-
-### Ouakkaha (Chick Producers)
-- Log in with username: `ouakkaha` and password: `ouakkaha123`
-- Add and manage chick products
-- Process orders for their products
-- Purchase products from Alfissen sellers
-
-### Customers
-- Register a new account (only customer role is available for registration)
-- Browse all available products
-- Add products to cart and place orders
-- View order history and track orders
-
-## Product Categories
-
-### Poussins (Chicks)
-- Poulet Roux Fonce
-- Poulet Roux
-- Poulet Beldi ouakkaha
-- Poulet Cou Nu
-- Poulet Gris barre
-- Poulet de chair
-
-### Aliments Composés (Compound Feed)
-#### Volailles
-- Aliments Poussin Démarrage A13
-- Aliment Pré-Démarrage Pre-13
-- Aliments Poussin Croissance A23
-- Aliment Poulet Pré-Abattage A43
-- Aliment Poule Pondeuse P 64
-- Aliment Concentre Poulet De Chair Cdcf 43%
-- Aliment Concentre Poule Pondeuse Ponte 44% Cc P204
-- Aliments Pondeuse Et Reproductrice – PR64
-
-#### Bovins
-- Aliments Veaux Démarrage JBIO
-- Aliments Jeunes Bovins Engraissement JB2O
-- Aliments Bovins Top Engraissement JB3O
-- Aliments Bovins Finition JB4O
-- Aliments Génisse En Croissance GIO
-- Aliments Vache Laitière 2L – VL20
-- Aliments Vache Laitière 2.5L – VL25
-- Aliments Vache Laitière 3L – VL30
-
-#### Ovins
-- Aliments Agneaux d'Engraissement O2O
-- Aliments Ovins Finition O3O
-- Aliments Brebis Gestante O4O
-- Aliments Brebis Allaitante O5O
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details. 
