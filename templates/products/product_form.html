@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if object %}
+        Edit Product - {{ object.name }}
+    {% else %}
+        Add New Product
+    {% endif %}
+    - AVICOLE
+{% endblock %}
+
+{% block content %}
+    <div class="product-form-container">
+        <h1>
+            {% if object %}
+                Edit Product
+            {% else %}
+                Add New Product
+            {% endif %}
+        </h1>
+        
+        <form method="post" enctype="multipart/form-data" class="product-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div class="alert error">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Product Name</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error-message">
+                        {{ form.name.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="error-message">
+                        {{ form.description.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="{{ form.price.id_for_label }}">Price (MAD)</label>
+                    {{ form.price }}
+                    {% if form.price.errors %}
+                        <div class="error-message">
+                            {{ form.price.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.stock.id_for_label }}">Stock</label>
+                    {{ form.stock }}
+                    {% if form.stock.errors %}
+                        <div class="error-message">
+                            {{ form.stock.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.type.id_for_label }}">Product Type</label>
+                {{ form.type }}
+                {% if form.type.errors %}
+                    <div class="error-message">
+                        {{ form.type.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.image.id_for_label }}">Product Image</label>
+                {% if object and object.image %}
+                    <div class="current-image">
+                        <img src="{{ object.image.url }}" alt="{{ object.name }}" class="preview-image">
+                        <p>Current image: {{ object.image.name }}</p>
+                    </div>
+                {% endif %}
+                {{ form.image }}
+                {% if form.image.errors %}
+                    <div class="error-message">
+                        {{ form.image.errors }}
+                    </div>
+                {% endif %}
+                <small class="form-text">
+                    Upload a clear image of your product. Recommended size: 800x800 pixels.
+                </small>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn">
+                    {% if object %}
+                        Update Product
+                    {% else %}
+                        Add Product
+                    {% endif %}
+                </button>
+                
+                {% if object %}
+                    <a href="{% url 'products:product_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+                {% else %}
+                    <a href="{% url 'products:product_list' %}" class="btn btn-secondary">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-form-container {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .product-form-container h1 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+    
+    .error-message {
+        color: var(--danger-color);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    .form-text {
+        font-size: 0.9rem;
+        color: #666;
+        margin-top: 0.25rem;
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1rem;
+    }
+    
+    .current-image {
+        margin-bottom: 1rem;
+    }
+    
+    .preview-image {
+        max-width: 200px;
+        max-height: 200px;
+        margin-bottom: 0.5rem;
+        border-radius: 4px;
+    }
+    
+    @media (max-width: 576px) {
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %} 

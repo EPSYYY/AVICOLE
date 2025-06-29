@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Customer Dashboard - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="dashboard">
+        <h1>Customer Dashboard</h1>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-title">Total Orders</div>
+                <div class="stat-value">{{ order_count }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Total Spent</div>
+                <div class="stat-value">{{ total_spent }} MAD</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-sections">
+            <div class="dashboard-section">
+                <div class="section-header">
+                    <h2>My Orders</h2>
+                    <a href="{% url 'products:product_list' %}" class="btn">Shop Now</a>
+                </div>
+                
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>{{ order.get_status_display }}</td>
+                                <td>{{ order.total_price }} MAD</td>
+                                <td>
+                                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm">View Details</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">You haven't placed any orders yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="dashboard-section">
+                <h2>Recommended Products</h2>
+                <div class="product-grid">
+                    {% for product in recommended_products %}
+                        <div class="product-card">
+                            <div class="product-image">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="/static/images/default-product.jpg" alt="{{ product.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">{{ product.price }} MAD</p>
+                                <p class="product-seller">Sold by: {{ product.seller.username }}</p>
+                                <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No recommended products available.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard {
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard h1 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .dashboard-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .dashboard-section {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .dashboard-section h2 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .section-header h2 {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+</style>
+{% endblock %} 

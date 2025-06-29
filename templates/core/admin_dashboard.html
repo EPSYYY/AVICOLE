@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="dashboard">
+        <h1>Admin Dashboard</h1>
+        
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-title">Total Products</div>
+                <div class="stat-value">{{ total_products }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Poussins</div>
+                <div class="stat-value">{{ poussins_count }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Aliments Composés</div>
+                <div class="stat-value">{{ aliments_count }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Total Users</div>
+                <div class="stat-value">{{ total_users }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Total Orders</div>
+                <div class="stat-value">{{ total_orders }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Pending Orders</div>
+                <div class="stat-value">{{ pending_orders }}</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-title">Total Sales</div>
+                <div class="stat-value">{{ total_sales }} MAD</div>
+            </div>
+        </div>
+        
+        <div class="dashboard-sections">
+            <div class="dashboard-section">
+                <h2>Recent Orders</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in recent_orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>{{ order.get_status_display }}</td>
+                                <td>{{ order.total_price }} MAD</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">No orders yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="dashboard-section">
+                <h2>Recent Users</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Date Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in recent_users %}
+                            <tr>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.get_role_display }}</td>
+                                <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="4">No users yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="dashboard-section">
+                <h2>Recent Products</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Type</th>
+                            <th>Seller</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in recent_products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.get_type_display }}</td>
+                                <td>{{ product.seller.username }}</td>
+                                <td>{{ product.price }} MAD</td>
+                                <td>{{ product.stock }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">No products yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard {
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard h1 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .dashboard-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .dashboard-section {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .dashboard-section h2 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+</style>
+{% endblock %} 

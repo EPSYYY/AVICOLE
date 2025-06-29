@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        
+        <div class="checkout-grid">
+            <div class="order-form">
+                <h2>Shipping Information</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="form-group">
+                        <label for="{{ form.shipping_address.id_for_label }}">Shipping Address</label>
+                        {{ form.shipping_address }}
+                        {% if form.shipping_address.errors %}
+                            <div class="error-message">
+                                {{ form.shipping_address.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <div class="error-message">
+                                {{ form.phone_number.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <button type="submit" class="btn">Place Order</button>
+                </form>
+            </div>
+            
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                
+                <div class="order-items">
+                    {% for item in cart_items %}
+                        <div class="order-item">
+                            <div class="order-item-image">
+                                {% if item.product.image %}
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                {% else %}
+                                    <img src="/static/images/default-product.jpg" alt="{{ item.product.name }}">
+                                {% endif %}
+                            </div>
+                            <div class="order-item-details">
+                                <div class="order-item-name">{{ item.product.name }}</div>
+                                <div class="order-item-price">{{ item.product.price }} MAD x {{ item.quantity }}</div>
+                                <div class="order-item-total">{{ item.get_cost }} MAD</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="order-total">
+                    <span class="total-label">Total:</span>
+                    <span class="total-value">{{ total }} MAD</span>
+                </div>
+                
+                <div class="back-to-cart">
+                    <a href="{% url 'orders:cart_detail' %}">Back to Cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .checkout-container {
+        margin-bottom: 2rem;
+    }
+    
+    .checkout-container h1 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    
+    .order-form,
+    .order-summary {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .order-form h2,
+    .order-summary h2 {
+        color: var(--dark-color);
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-items {
+        margin-bottom: 1.5rem;
+        max-height: 300px;
+        overflow-y: auto;
+    }
+    
+    .order-item {
+        display: flex;
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-item:last-child {
+        border-bottom: none;
+    }
+    
+    .order-item-image {
+        width: 60px;
+        height: 60px;
+        overflow: hidden;
+        border-radius: 4px;
+        margin-right: 1rem;
+    }
+    
+    .order-item-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .order-item-details {
+        flex: 1;
+    }
+    
+    .order-item-name {
+        font-weight: bold;
+        margin-bottom: 0.25rem;
+    }
+    
+    .order-item-price {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.25rem;
+    }
+    
+    .order-item-total {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    
+    .order-total {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem 0;
+        border-top: 2px solid #eee;
+        margin-bottom: 1rem;
+    }
+    
+    .total-label {
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    
+    .total-value {
+        font-weight: bold;
+        font-size: 1.2rem;
+        color: var(--primary-color);
+    }
+    
+    .back-to-cart {
+        text-align: center;
+    }
+    
+    .error-message {
+        color: var(--danger-color);
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    @media (max-width: 768px) {
+        .checkout-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .order-summary {
+            order: -1;
+        }
+    }
+</style>
+{% endblock %} 

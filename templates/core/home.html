@@ -1,0 +1,223 @@
+{% extends 'base.html' %}
+
+{% block title %}AVICOLE - Home{% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to AVICOLE</h1>
+            <p>Your trusted marketplace for poultry products</p>
+            <div class="hero-buttons">
+                {% if user.is_authenticated and user.is_customer %}
+                    <a href="#featured-products" class="btn">Shop Now</a>
+                {% else %}
+                    <a href="#featured-products" class="btn">Browse Products</a>
+                {% endif %}
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'users:register' %}" class="btn btn-secondary">Register Now</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section id="featured-products" class="featured-products">
+        <h2>Featured Products</h2>
+        <p class="section-description">Discover our latest and most popular products</p>
+        <div class="product-grid">
+            {% for product in products %}
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">{{ product.name }}</h3>
+                        <p class="product-price">{{ product.price }} MAD</p>
+                        <p class="product-seller">
+                            {% if product.seller %}
+                                Sold by: {{ product.seller.username }}
+                            {% else %}
+                                Sold by: {{ product.seller_name|default:"AVICOLE" }}
+                            {% endif %}
+                        </p>
+                        {% if product.id %}
+                            <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                        {% else %}
+                            <a href="{% url 'products:product_list' %}?type={{ product.type }}" class="btn">View Similar</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <p>No products available yet.</p>
+            {% endfor %}
+        </div>
+        <div class="view-all-container">
+            <a href="{% url 'products:product_list' %}" class="btn btn-secondary">View All Products</a>
+        </div>
+    </section>
+
+    <section class="categories">
+        <div class="category-container">
+            <div class="category">
+                <h2>Poussins</h2>
+                <p class="category-description">Quality chicks for your poultry farming needs</p>
+                <div class="product-grid">
+                    {% for product in poussins %}
+                        <div class="product-card">
+                            <div class="product-image">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="/static/images/placeholder-poussins.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">{{ product.price }} MAD</p>
+                                <p class="product-seller">
+                                    {% if product.seller %}
+                                        Sold by: {{ product.seller.username }}
+                                    {% else %}
+                                        Sold by: {{ product.seller_name|default:"Ouakkaha" }}
+                                    {% endif %}
+                                </p>
+                                {% if product.id %}
+                                    <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                                {% else %}
+                                    <a href="{% url 'products:product_list' %}?type=poussins" class="btn">View Similar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No poussins available yet.</p>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'products:product_list' %}?type=poussins" class="btn btn-secondary">View All Poussins</a>
+            </div>
+
+            <div class="category">
+                <h2>Aliments Composés</h2>
+                <p class="category-description">Premium compound feed for healthy livestock</p>
+                <div class="product-grid">
+                    {% for product in aliments %}
+                        <div class="product-card">
+                            <div class="product-image">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <img src="/static/images/placeholder-aliments.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
+                                {% endif %}
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">{{ product.price }} MAD</p>
+                                <p class="product-seller">
+                                    {% if product.seller %}
+                                        Sold by: {{ product.seller.username }}
+                                    {% else %}
+                                        Sold by: {{ product.seller_name|default:"Alfissen" }}
+                                    {% endif %}
+                                </p>
+                                {% if product.id %}
+                                    <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                                {% else %}
+                                    <a href="{% url 'products:product_list' %}?type=aliments" class="btn">View Similar</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>No aliments composés available yet.</p>
+                    {% endfor %}
+                </div>
+                <a href="{% url 'products:product_list' %}?type=aliments" class="btn btn-secondary">View All Aliments</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 3rem 0;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+    }
+    
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .hero-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .featured-products,
+    .categories {
+        margin-bottom: 3rem;
+    }
+    
+    .featured-products h2,
+    .categories h2 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+    
+    .section-description,
+    .category-description {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #666;
+    }
+    
+    .category {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category h2 {
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .category .btn-secondary {
+        display: block;
+        width: 200px;
+        margin: 1rem auto;
+        text-align: center;
+    }
+    
+    .view-all-container {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    
+    .view-all-container .btn-secondary {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %} 

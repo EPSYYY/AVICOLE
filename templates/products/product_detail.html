@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="product-detail">
+        <div class="product-image-container">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image-large">
+            {% else %}
+                <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" class="product-image-large" onerror="this.src='/static/images/placeholder.jpg'">
+            {% endif %}
+        </div>
+        
+        <div class="product-info-container">
+            <h1 class="product-title">{{ product.name }}</h1>
+            
+            <div class="product-meta">
+                <span class="product-type">{{ product.get_type_display }}</span>
+                <span class="product-seller">Sold by: {{ product.seller.username }}</span>
+            </div>
+            
+            <div class="product-price-container">
+                <span class="product-price">{{ product.price }} MAD</span>
+                <span class="product-stock {% if product.stock > 0 %}in-stock{% else %}out-of-stock{% endif %}">
+                    {% if product.stock > 0 %}
+                        In Stock ({{ product.stock }} available)
+                    {% else %}
+                        Out of Stock
+                    {% endif %}
+                </span>
+            </div>
+            
+            <div class="product-description">
+                <h3>Description</h3>
+                <p>{{ product.description }}</p>
+            </div>
+            
+            {% if product.stock > 0 and user.is_authenticated and user.is_customer %}
+                <div class="product-actions">
+                    <form method="post" action="{% url 'orders:cart_add' product.id %}" class="add-to-cart-form">
+                        {% csrf_token %}
+                        <div class="form-group quantity-input">
+                            <label for="id_quantity">Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="form-control" id="id_quantity">
+                            <input type="hidden" name="update" value="False">
+                        </div>
+                        <button type="submit" class="btn">Add to Cart</button>
+                    </form>
+                </div>
+            {% elif not user.is_authenticated %}
+                <div class="login-prompt">
+                    <p>Please <a href="{% url 'users:login' %}">login</a> to add this product to your cart.</p>
+                </div>
+            {% endif %}
+            
+            {% if user.is_authenticated and user == product.seller or user.is_admin %}
+                <div class="seller-actions">
+                    <a href="{% url 'products:product_update' product.id %}" class="btn btn-secondary">Edit Product</a>
+                    <a href="{% url 'products:product_delete' product.id %}" class="btn btn-danger">Delete Product</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .product-detail {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .product-image-container {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .product-image-large {
+        max-width: 100%;
+        max-height: 400px;
+        object-fit: contain;
+    }
+    
+    .product-info-container {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+    
+    .product-title {
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+    
+    .product-meta {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        color: #666;
+    }
+    
+    .product-price-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    
+    .product-stock {
+        font-weight: bold;
+    }
+    
+    .in-stock {
+        color: var(--success-color);
+    }
+    
+    .out-of-stock {
+        color: var(--danger-color);
+    }
+    
+    .product-description {
+        margin-bottom: 1.5rem;
+    }
+    
+    .product-description h3 {
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+    
+    .add-to-cart-form {
+        display: flex;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+    
+    .quantity-input {
+        width: 100px;
+    }
+    
+    .login-prompt {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        text-align: center;
+    }
+    
+    .seller-actions {
+        margin-top: 2rem;
+        display: flex;
+        gap: 1rem;
+    }
+    
+    @media (max-width: 768px) {
+        .product-detail {
+            grid-template-columns: 1fr;
+        }
+        
+        .add-to-cart-form {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .quantity-input {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %} 

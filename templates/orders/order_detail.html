@@ -1,0 +1,286 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.id }} - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="order-detail">
+        <div class="order-header">
+            <h1>Order #{{ order.id }}</h1>
+            <div class="order-status {{ order.status }}">{{ order.get_status_display }}</div>
+        </div>
+        
+        <div class="order-grid">
+            <div class="order-info-section">
+                <div class="order-info-card">
+                    <h2>Order Information</h2>
+                    <div class="info-item">
+                        <span class="info-label">Order Date:</span>
+                        <span class="info-value">{{ order.created_at|date:"F j, Y, H:i" }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Status:</span>
+                        <span class="info-value status-badge {{ order.status }}">{{ order.get_status_display }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Total:</span>
+                        <span class="info-value price">{{ order.total_price }} MAD</span>
+                    </div>
+                </div>
+                
+                <div class="order-info-card">
+                    <h2>Shipping Information</h2>
+                    <div class="info-item">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">{{ order.shipping_address }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">{{ order.phone_number }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-items-section">
+                <h2>Order Items</h2>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in order.items.all %}
+                            <tr>
+                                <td class="product-info">
+                                    <div class="product-image-small">
+                                        {% if item.product.image %}
+                                            <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                                        {% else %}
+                                            <img src="/static/images/default-product.jpg" alt="{{ item.product.name }}">
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <a href="{% url 'products:product_detail' item.product.id %}" class="product-name">{{ item.product.name }}</a>
+                                        <div class="product-seller">Sold by: {{ item.product.seller.username }}</div>
+                                    </div>
+                                </td>
+                                <td class="price">{{ item.price }} MAD</td>
+                                <td>{{ item.quantity }}</td>
+                                <td class="price">{{ item.get_cost }} MAD</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                            <td class="price"><strong>{{ order.total_price }} MAD</strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        
+        <div class="order-actions">
+            <div class="left-actions">
+                <a href="{% url 'orders:order_list' %}" class="btn btn-secondary">Back to Orders</a>
+                {% if user.is_customer %}
+                <a href="{% url 'products:product_list' %}" class="btn">Continue Shopping</a>
+                {% endif %}
+            </div>
+            
+            <div class="right-actions">
+                {% if order.status == 'pending' %}
+                    {% if user == order.user %}
+                        <!-- Customer can cancel their pending order -->
+                        <a href="{% url 'orders:order_cancel' order.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel Order</a>
+                    {% elif user.is_alfissen or user.is_ouakkaha or user.is_admin %}
+                        <!-- Seller/Admin can accept or cancel pending orders -->
+                        <a href="{% url 'orders:order_accept' order.id %}" class="btn btn-success" onclick="return confirm('Are you sure you want to accept this order?')">Accept Order</a>
+                        <a href="{% url 'orders:order_cancel' order.id %}" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel Order</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .order-detail {
+        margin-bottom: 2rem;
+    }
+    
+    .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .order-header h1 {
+        color: var(--primary-color);
+        margin-bottom: 0;
+    }
+    
+    .order-status {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        font-weight: bold;
+        color: #fff;
+    }
+    
+    .order-status.pending {
+        background-color: #ffc107;
+        color: #333;
+    }
+    
+    .order-status.processing {
+        background-color: #17a2b8;
+    }
+    
+    .order-status.shipped {
+        background-color: #007bff;
+    }
+    
+    .order-status.delivered {
+        background-color: var(--success-color);
+    }
+    
+    .order-status.cancelled {
+        background-color: var(--danger-color);
+    }
+    
+    .order-grid {
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .order-info-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .order-info-card,
+    .order-items-section {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .order-info-card h2,
+    .order-items-section h2 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .info-item {
+        margin-bottom: 0.5rem;
+        display: flex;
+    }
+    
+    .info-label {
+        font-weight: bold;
+        width: 120px;
+    }
+    
+    .info-value {
+        flex: 1;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+        font-weight: bold;
+        color: #fff;
+    }
+    
+    .price {
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+    
+    .product-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .product-image-small {
+        width: 80px;
+        height: 80px;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+    
+    .product-image-small img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-name {
+        font-weight: bold;
+        color: var(--dark-color);
+        text-decoration: none;
+    }
+    
+    .product-seller {
+        font-size: 0.9rem;
+        color: #666;
+    }
+    
+    .text-right {
+        text-align: right;
+    }
+    
+    .order-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1.5rem;
+    }
+    
+    .left-actions, .right-actions {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-danger {
+        background-color: var(--danger-color);
+        color: white;
+    }
+    
+    .btn-success {
+        background-color: var(--success-color);
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .order-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .order-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .table {
+            display: block;
+            overflow-x: auto;
+        }
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,213 @@
+{% extends 'base.html' %}
+
+{% block title %}Alfissen Dashboard{% endblock %}
+
+{% block content %}
+    <div class="dashboard-container">
+        <h1>Alfissen Dashboard</h1>
+        
+        <!-- Dashboard Summary -->
+        <div class="dashboard-summary">
+            <div class="summary-card">
+                <h3>Products</h3>
+                <div class="summary-value">{{ product_count }}</div>
+            </div>
+            
+            <div class="summary-card">
+                <h3>Sales Orders</h3>
+                <div class="summary-value">{{ sales_orders_count }}</div>
+            </div>
+            
+            <div class="summary-card">
+                <h3>Total Revenue</h3>
+                <div class="summary-value">{{ sales_total }} MAD</div>
+            </div>
+        </div>
+        
+        <!-- Order Status Breakdown -->
+        <div class="status-breakdown">
+            <h2>Order Status Breakdown</h2>
+            <div class="status-cards">
+                <div class="status-card pending">
+                    <h4>Pending</h4>
+                    <div class="status-count">{{ pending_orders }}</div>
+                </div>
+                <div class="status-card processing">
+                    <h4>Processing</h4>
+                    <div class="status-count">{{ processing_orders }}</div>
+                </div>
+                
+                <div class="status-card delivered">
+                    <h4>Delivered</h4>
+                    <div class="status-count">{{ delivered_orders }}</div>
+                </div>
+                <div class="status-card cancelled">
+                    <h4>Cancelled</h4>
+                    <div class="status-count">{{ cancelled_orders }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Sales -->
+        <div class="recent-section">
+            <h2>Recent Orders</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Order #</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in sales_orders|slice:":10" %}
+                            <tr>
+                                <td><a href="{% url 'orders:order_detail' order.id %}">#{{ order.id }}</a></td>
+                                <td>{{ order.user.username }}</td>
+                                <td>{{ order.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    {% for item in order.items.all %}
+                                        {% if item.product.seller == user %}
+                                            {% comment %}Count items by this seller{% endcomment %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {{ order.items.all|length }}
+                                </td>
+                                <td>{{ order.total_price }} MAD</td>
+                                <td>
+                                    <span class="status-badge {{ order.status }}">
+                                        {{ order.get_status_display }}
+                                    </span>
+                                </td>
+                                <td class="actions-cell">
+                                    <a href="{% url 'orders:order_detail' order.id %}" class="btn btn-sm">View</a>
+                                    {% if order.status == 'pending' %}
+                                        <a href="{% url 'orders:order_accept' order.id %}" class="btn btn-sm btn-success" onclick="return confirm('Are you sure you want to accept this order?')">Accept</a>
+                                        <a href="{% url 'orders:order_cancel' order.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to cancel this order?')">Cancel</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7">No orders found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% if sales_orders_count > 10 %}
+                <div class="view-all-link">
+                    <a href="#">View All Orders</a>
+                </div>
+            {% endif %}
+        </div>
+        
+        <!-- My Products -->
+        <div class="recent-section">
+            <h2>My Products</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in my_products|slice:":5" %}
+                            <tr>
+                                <td>
+                                    <div class="product-cell">
+                                        <div class="product-image">
+                                            {% if product.image %}
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            {% else %}
+                                                <img src="/static/images/default-product.jpg" alt="{{ product.name }}">
+                                            {% endif %}
+                                        </div>
+                                        <span>{{ product.name }}</span>
+                                    </div>
+                                </td>
+                                <td>{{ product.get_category_display }}</td>
+                                <td>{{ product.price }} MAD</td>
+                                <td>{{ product.stock }}</td>
+                                <td class="actions-cell">
+                                    <a href="{% url 'products:product_detail' product.id %}" class="btn btn-sm">View</a>
+                                    <a href="{% url 'products:product_update' product.id %}" class="btn btn-sm">Edit</a>
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">No products found.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="add-product-btn">
+                <a href="{% url 'products:product_create' %}" class="btn">Add New Product</a>
+            </div>
+            {% if product_count > 5 %}
+                <div class="view-all-link">
+                    <a href="{% url 'products:product_list' %}?seller={{ user.id }}">View All Products</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .dashboard {
+        margin-bottom: 2rem;
+    }
+    
+    .dashboard h1 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .dashboard-sections {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .dashboard-section {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+    }
+    
+    .dashboard-section h2 {
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .section-header h2 {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+    }
+</style>
+{% endblock %} 

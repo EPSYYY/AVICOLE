@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete {{ object.name }} - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="delete-confirmation">
+        <h1>Delete Product</h1>
+        
+        <div class="delete-warning">
+            <p>Are you sure you want to delete the product "{{ object.name }}"?</p>
+            <p>This action cannot be undone.</p>
+        </div>
+        
+        <div class="product-preview">
+            <div class="product-image-container">
+                {% if object.image %}
+                    <img src="{{ object.image.url }}" alt="{{ object.name }}" class="product-image">
+                {% else %}
+                    <img src="/static/images/default-product.jpg" alt="{{ object.name }}" class="product-image">
+                {% endif %}
+            </div>
+            
+            <div class="product-details">
+                <h2>{{ object.name }}</h2>
+                <p class="product-price">{{ object.price }} MAD</p>
+                <p class="product-type">Type: {{ object.get_type_display }}</p>
+                <p class="product-stock">Stock: {{ object.stock }}</p>
+            </div>
+        </div>
+        
+        <form method="post" class="delete-form">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">Delete Product</button>
+                <a href="{% url 'products:product_detail' object.id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .delete-confirmation {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .delete-confirmation h1 {
+        color: var(--danger-color);
+        margin-bottom: 1.5rem;
+    }
+    
+    .delete-warning {
+        background-color: #fff8f8;
+        border-left: 4px solid var(--danger-color);
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .delete-warning p {
+        margin-bottom: 0.5rem;
+    }
+    
+    .delete-warning p:last-child {
+        margin-bottom: 0;
+    }
+    
+    .product-preview {
+        display: flex;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border: 1px solid #eee;
+        border-radius: 4px;
+    }
+    
+    .product-image-container {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        border-radius: 4px;
+    }
+    
+    .product-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .product-details {
+        flex: 1;
+    }
+    
+    .product-details h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
+    }
+    
+    .product-price {
+        font-weight: bold;
+        color: var(--primary-color);
+        margin-bottom: 0.25rem;
+    }
+    
+    .product-type,
+    .product-stock {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.25rem;
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    @media (max-width: 576px) {
+        .product-preview {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .product-image-container {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+{% endblock %} 

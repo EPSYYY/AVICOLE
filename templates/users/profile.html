@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - AVICOLE{% endblock %}
+
+{% block content %}
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">User Profile</h2>
+        </div>
+        <div class="card-body">
+            <div class="profile-info">
+                <div class="profile-field">
+                    <span class="profile-label">Username:</span>
+                    <span class="profile-value">{{ user.username }}</span>
+                </div>
+                
+                <div class="profile-field">
+                    <span class="profile-label">Email:</span>
+                    <span class="profile-value">{{ user.email }}</span>
+                </div>
+                
+
+                
+                <div class="profile-field">
+                    <span class="profile-label">Role:</span>
+                    <span class="profile-value">{{ user.get_role_display }}</span>
+                </div>
+                
+                <div class="profile-field">
+                    <span class="profile-label">Date Joined:</span>
+                    <span class="profile-value">{{ user.date_joined|date:"F j, Y" }}</span>
+                </div>
+            </div>
+            
+            <div class="profile-actions">
+                <a href="{% url 'orders:order_list' %}" class="btn">My Orders</a>
+                
+                {% if user.is_alfissen or user.is_ouakkaha %}
+                    <a href="{% url 'products:product_create' %}" class="btn btn-secondary">Add New Product</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .card {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .profile-info {
+        margin-bottom: 2rem;
+    }
+    
+    .profile-field {
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #eee;
+        display: flex;
+    }
+    
+    .profile-label {
+        font-weight: bold;
+        width: 150px;
+    }
+    
+    .profile-value {
+        flex: 1;
+    }
+    
+    .profile-actions {
+        display: flex;
+        gap: 1rem;
+    }
+</style>
+{% endblock %} 
