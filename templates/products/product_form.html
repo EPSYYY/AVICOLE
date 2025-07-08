@@ -99,6 +99,25 @@
                 </small>
             </div>
             
+            <div class="form-group">
+                <label for="{{ form.details_image.id_for_label }}">Product Details Image</label>
+                {% if object and object.details_image %}
+                    <div class="current-image">
+                        <img src="{{ object.details_image.url }}" alt="{{ object.name }} details" class="preview-image">
+                        <p>Current details image: {{ object.details_image.name }}</p>
+                    </div>
+                {% endif %}
+                {{ form.details_image }}
+                {% if form.details_image.errors %}
+                    <div class="error-message">
+                        {{ form.details_image.errors }}
+                    </div>
+                {% endif %}
+                <small class="form-text">
+                    Upload an image showing additional product details (e.g., specifications, measurements, etc.). Recommended size: 800x800 pixels.
+                </small>
+            </div>
+            
             <div class="form-actions">
                 <button type="submit" class="btn">
                     {% if object %}

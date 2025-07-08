@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 
-{% block title %}AVICOLE - Home{% endblock %}
+{% block title %}GROUPEOUAKKAHA - Home{% endblock %}
 
 {% block content %}
     <section class="hero">
         <div class="hero-content">
-            <h1>Welcome to AVICOLE</h1>
+            <h1>Welcome to GROUPEOUAKKAHA</h1>
             <p>Your trusted marketplace for poultry products</p>
             <div class="hero-buttons">
                 {% if user.is_authenticated and user.is_customer %}
-                    <a href="#featured-products" class="btn">Shop Now</a>
+                    <a href="#poussins-section" class="btn">Shop Now</a>
                 {% else %}
-                    <a href="#featured-products" class="btn">Browse Products</a>
+                    <a href="#poussins-section" class="btn">Browse Products</a>
                 {% endif %}
                 {% if not user.is_authenticated %}
                     <a href="{% url 'users:register' %}" class="btn btn-secondary">Register Now</a>
@@ -20,122 +20,58 @@
         </div>
     </section>
 
-    <section id="featured-products" class="featured-products">
-        <h2>Featured Products</h2>
-        <p class="section-description">Discover our latest and most popular products</p>
-        <div class="product-grid">
-            {% for product in products %}
-                <div class="product-card">
-                    <div class="product-image">
-                        {% if product.image %}
-                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                        {% else %}
-                            <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
-                        {% endif %}
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">{{ product.name }}</h3>
-                        <p class="product-price">{{ product.price }} MAD</p>
-                        <p class="product-seller">
-                            {% if product.seller %}
-                                Sold by: {{ product.seller.username }}
-                            {% else %}
-                                Sold by: {{ product.seller_name|default:"AVICOLE" }}
-                            {% endif %}
-                        </p>
-                        {% if product.id %}
-                            <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
-                        {% else %}
-                            <a href="{% url 'products:product_list' %}?type={{ product.type }}" class="btn">View Similar</a>
-                        {% endif %}
-                    </div>
-                </div>
-            {% empty %}
-                <p>No products available yet.</p>
-            {% endfor %}
-        </div>
-        <div class="view-all-container">
-            <a href="{% url 'products:product_list' %}" class="btn btn-secondary">View All Products</a>
-        </div>
-    </section>
 
-    <section class="categories">
-        <div class="category-container">
-            <div class="category">
-                <h2>Poussins</h2>
-                <p class="category-description">Quality chicks for your poultry farming needs</p>
-                <div class="product-grid">
-                    {% for product in poussins %}
-                        <div class="product-card">
-                            <div class="product-image">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                    <img src="/static/images/placeholder-poussins.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-title">{{ product.name }}</h3>
-                                <p class="product-price">{{ product.price }} MAD</p>
-                                <p class="product-seller">
-                                    {% if product.seller %}
-                                        Sold by: {{ product.seller.username }}
-                                    {% else %}
-                                        Sold by: {{ product.seller_name|default:"Ouakkaha" }}
-                                    {% endif %}
-                                </p>
-                                {% if product.id %}
-                                    <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
-                                {% else %}
-                                    <a href="{% url 'products:product_list' %}?type=poussins" class="btn">View Similar</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p>No poussins available yet.</p>
-                    {% endfor %}
-                </div>
-                <a href="{% url 'products:product_list' %}?type=poussins" class="btn btn-secondary">View All Poussins</a>
-            </div>
-
-            <div class="category">
-                <h2>Aliments Composés</h2>
-                <p class="category-description">Premium compound feed for healthy livestock</p>
-                <div class="product-grid">
-                    {% for product in aliments %}
-                        <div class="product-card">
-                            <div class="product-image">
-                                {% if product.image %}
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                {% else %}
-                                    <img src="/static/images/placeholder-aliments.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
-                                {% endif %}
-                            </div>
-                            <div class="product-info">
-                                <h3 class="product-title">{{ product.name }}</h3>
-                                <p class="product-price">{{ product.price }} MAD</p>
-                                <p class="product-seller">
-                                    {% if product.seller %}
-                                        Sold by: {{ product.seller.username }}
-                                    {% else %}
-                                        Sold by: {{ product.seller_name|default:"Alfissen" }}
-                                    {% endif %}
-                                </p>
-                                {% if product.id %}
-                                    <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
-                                {% else %}
-                                    <a href="{% url 'products:product_list' %}?type=aliments" class="btn">View Similar</a>
-                                {% endif %}
-                            </div>
-                        </div>
-                    {% empty %}
-                        <p>No aliments composés available yet.</p>
-                    {% endfor %}
-                </div>
-                <a href="{% url 'products:product_list' %}?type=aliments" class="btn btn-secondary">View All Aliments</a>
+    <section id="groupe-ouakkaha" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/groupeouakkaha.png" alt="Groupe OUAKKAHA" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>Groupe OUAKKAHA</h2>
+            <div class="company-description">
+                <p>Le groupe OUAKKAHA est un groupe familial, créé il y a plus de 40 ans sous l'impulsion d'un homme, monateur Haj Mohamed OUAKKAHA. Il assure l'essentiel des stades de production dans ses propres unités. Ainsi, avec ses chequés reproducteurs, ses couvoirs et son usine d'aliments composés, le groupe réussit à maîtriser et contrôler chaque malaîne de la chaîne de production.</p>
             </div>
         </div>
     </section>
+
+    <section id="ouakkaha-mohamed" class="company-section company-flex">
+        <div class="company-content left">
+            <h2>OUAKKAHA MOHAMED</h2>
+            <div class="company-description">
+                <p>La société est le premier exportateur marocain des CAC et des poussins d'un jour vers le marché africain où elle a la maîtrise complète des procédés d'élevage des reproductions et d'accompagnement.</p>
+                <div class="view-more-container">
+                    <a href="/ouakkaha_detail/" class="btn btn-secondary">Voir plus</a>
+                </div>
+            </div>
+        </div>
+        <div class="company-img-container right">
+            <img src="../static/images/ouakkahamohamed.png" alt="OUAKKAHA MOHAMED" class="company-img">
+        </div>
+    </section>
+
+    <section id="alf-issen" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/alfissen.png" alt="ALF ISSEN" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>ALF ISSEN</h2>
+            <div class="company-description">
+                <p>Est spécialisée dans la production d'aliments composés pour bétail et volaille. Elle offre aussi un grand choix des solutions nutritionnelles pour tous vos besoins. Elle est le premier exportateur marocain des aliments composés et poussins vers le marché africain.</p>
+                <div class="view-more-container">
+                    <a href="/alfissen_detail/" class="btn btn-secondary">Voir plus</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="export-box">
+  <h1 class="export-title">Nos Produits Vont Au-Delà Des Frontières</h1>
+  <p class="export-paragraph">
+    La société OUAKKAHA MOHAMED exporte ses œufs et ses poussins à plusieurs pays du continent africain tels que:
+    Mauritanie, Mali, Côte d’Ivoire, Sénégal, Guinée Conakry.
+  </p>
+  <img src="../static/images/map.png" alt="Carte des exportations" class="export-image">
+</div>
+
+    
 {% endblock %}
 
 {% block extra_css %}
@@ -170,12 +106,85 @@
         gap: 1rem;
     }
     
-    .featured-products,
+
+    .company-section {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .company-flex {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .company-flex.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .company-img-container {
+        flex: 1 1 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .company-img {
+        max-width: 320px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        object-fit: cover;
+    }
+
+    .company-content {
+        flex: 2 1 400px;
+    }
+
+    .company-section h2 {
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        text-align: left;
+    }
+
+    .company-description {
+        text-align: justify;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .view-more-container {
+        text-align: left;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+        .company-flex {
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        .company-img-container, .company-content {
+            flex: 1 1 100%;
+        }
+        .company-section h2 {
+            text-align: center;
+        }
+        .view-more-container {
+            text-align: center;
+        }
+    }
+    
     .categories {
         margin-bottom: 3rem;
     }
     
-    .featured-products h2,
     .categories h2 {
         text-align: center;
         margin-bottom: 0.5rem;
@@ -219,5 +228,36 @@
         padding: 0.75rem 2rem;
         font-size: 1.1rem;
     }
+
+  .export-box {
+  border: 2px solid #ccc;
+  padding: 20px;
+  max-width: 800px;
+  margin: 30px auto;
+  text-align: center;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.export-title {
+  color: #2e7d32; /* green */
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.export-paragraph {
+  font-size: 1.1em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.export-image {
+  width: 100%;
+  max-width: 700px;
+  height: auto;
+  border-radius: 8px;
+}
+
 </style>
 {% endblock %} 
