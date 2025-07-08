@@ -17,6 +17,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     type = models.CharField(max_length=10, choices=PRODUCT_TYPES)
     image = models.ImageField(upload_to='products/', null=True, blank=True)
+    details_image = models.ImageField(upload_to='products/details/', null=True, blank=True, help_text="Image showing product details")
     seller = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='products')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

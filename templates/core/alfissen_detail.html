@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+{% block title %}OUAKKAHA - Détail{% endblock %}
+{% block content %}
+<section id="groupe-ouakkaha" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/ouakkaha1.jpg" alt="Groupe OUAKKAHA" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>Un outil de production des aliments à la pointe</h2>
+            <div class="company-description">
+<p>Après l’approvisionnement des matières premières, ces dernières sont contrôlées à la réception avant d’être broyées et mélangées puis granulées et conditionnées soit en vrac ou en sac
+        </div>
+    </section>
+
+    <section id="ouakkaha-mohamed" class="company-section company-flex">
+        <div class="company-content left">
+            <h2>Une qualité certifiée</h2>
+            <div class="company-description">
+                <p>Elément essentiel dans la démarche qualité, le laboratoire interne de l’unité ALF ISSEN réalise plusieurs analyses de contrôle qualité pour les matières premières et les produits finis au titre de l’autocontrôle.
+
+                    Au-delà de ses contrôles permanents, ALF ISSEN a fait le choix de la certification ISO 22000 version 2018 pour se conformer à toutes les exigences en matière de la sécurité alimentaire.</p>
+            </div>
+        </div>
+        <div class="company-img-container right">
+            <img src="../static/images/alfissen1.png" alt="OUAKKAHA MOHAMED" class="company-img">
+        </div>
+    </section>
+
+    <section id="alf-issen" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/alfissen2.png" alt="ALF ISSEN" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>Le transport est au centre de nos préoccupations</h2>
+            <div class="company-description">
+               <p>ALF ISSEN dispose d’une flotte de véhicules spécialisés dans le transport des aliments composés pour garantir les délais, la traçabilité et la sécurité alimentaire.</p>
+            </div>
+        </div>
+    </section>
+   
+{% endblock %}
+
+{% block extra_css %}
+<style>
+ .company-section {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .company-flex {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .company-flex.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .company-img-container {
+        flex: 1 1 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .company-img {
+        max-width: 320px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        object-fit: cover;
+    }
+
+    .company-content {
+        flex: 2 1 400px;
+    }
+
+    .company-section h2 {
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        text-align: left;
+    }
+
+    .company-description {
+        text-align: justify;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .view-more-container {
+        text-align: left;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+        .company-flex {
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        .company-img-container, .company-content {
+            flex: 1 1 100%;
+        }
+        .company-section h2 {
+            text-align: center;
+        }
+        .view-more-container {
+            text-align: center;
+        }
+    }
+    
+    .categories {
+        margin-bottom: 3rem;
+    }
+    
+    .categories h2 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+    
+    .section-description,
+    .category-description {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #666;
+    }
+    
+    .category {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category h2 {
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .category .btn-secondary {
+        display: block;
+        width: 200px;
+        margin: 1rem auto;
+        text-align: center;
+    }
+    
+    .view-all-container {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    
+    .view-all-container .btn-secondary {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}

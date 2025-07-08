@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}AVICOLE{% endblock %}</title>
+    <title>{% block title %}GROUPEOUAKKAHA{% endblock %}</title>
     <link rel="stylesheet" href="/static/css/style.css">
     {% block extra_css %}{% endblock %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -12,7 +12,7 @@
     <header>
         <div class="container">
             <div class="logo">
-                <a href="{% url 'core:home' %}">AVICOLE</a>
+                <a href="{% url 'core:home' %}">GROUPEOUAKKAHA</a>
             </div>
             
             <div class="search-container">
@@ -36,8 +36,8 @@
                             <li><a href="{% url 'products:product_list' %}?type=poussins">My Products</a></li>
                             <li><a href="{% url 'orders:order_list' %}">Orders</a></li>
                         {% else %}
+                            <li><a href="{% url 'products:product_list' %}">Products</a></li>
                             <li><a href="{% url 'orders:order_list' %}">My Orders</a></li>
-                            <li><a href="{% url 'orders:cart_detail' %}"><i class="fas fa-shopping-cart"></i> Cart</a></li>
                         {% endif %}
                         
                         <li class="profile-dropdown">
@@ -55,6 +55,8 @@
                             </div>
                         </li>
                     {% else %}
+                        <li><a href="{% url 'products:product_list' %}">Products</a></li>
+
                         <li><a href="{% url 'users:login' %}">Login</a></li>
                         <li><a href="{% url 'users:register' %}">Register</a></li>
                     {% endif %}
@@ -81,7 +83,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; {% now "Y" %} AVICOLE. All rights reserved.</p>
+            <p>&copy; {% now "Y" %} GROUPEOUAKKAHA. All rights reserved.</p>
         </div>
     </footer>
     

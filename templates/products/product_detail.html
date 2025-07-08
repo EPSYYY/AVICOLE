@@ -4,15 +4,15 @@
 
 {% block content %}
     <div class="product-detail">
-        <div class="product-image-container">
-            {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image-large">
-            {% else %}
-                <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" class="product-image-large" onerror="this.src='/static/images/placeholder.jpg'">
-            {% endif %}
-        </div>
-        
         <div class="product-info-container">
+            <div class="product-image-container">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image-large">
+                {% else %}
+                    <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" class="product-image-large" onerror="this.src='/static/images/placeholder.jpg'">
+                {% endif %}
+            </div>
+            
             <h1 class="product-title">{{ product.name }}</h1>
             
             <div class="product-meta">
@@ -29,11 +29,6 @@
                         Out of Stock
                     {% endif %}
                 </span>
-            </div>
-            
-            <div class="product-description">
-                <h3>Description</h3>
-                <p>{{ product.description }}</p>
             </div>
             
             {% if product.stock > 0 and user.is_authenticated and user.is_customer %}
@@ -61,6 +56,17 @@
                 </div>
             {% endif %}
         </div>
+        
+        <div class="product-details-container">
+            
+            
+            {% if product.details_image %}
+                <div class="details-image-container">
+                    <h3>Product Details</h3>
+                    <img src="{{ product.details_image.url }}" alt="{{ product.name }} details" class="details-image">
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
@@ -73,27 +79,41 @@
         margin-bottom: 2rem;
     }
     
-    .product-image-container {
-        background-color: #fff;
-        border-radius: 4px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        padding: 1rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .product-image-large {
-        max-width: 100%;
-        max-height: 400px;
-        object-fit: contain;
-    }
-    
     .product-info-container {
         background-color: #fff;
         border-radius: 4px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         padding: 2rem;
+    }
+    
+    .product-details-container {
+        background-color: #fff;
+        border-radius: 4px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+    }
+    
+    .product-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+    
+    .product-image-large {
+        max-width: 100%;
+        max-height: 300px;
+        object-fit: contain;
+    }
+    
+    .details-image-container {
+        margin-top: 0rem;
+    }
+    
+    .details-image {
+        max-width: 100%;
+        border-radius: 4px;
+        margin-top: 1rem;
     }
     
     .product-title {
@@ -149,7 +169,29 @@
     }
     
     .quantity-input {
-        width: 100px;
+        width: 120px;
+        margin-bottom: 0;
+    }
+    
+    .quantity-input label {
+        display: block;
+        margin-bottom: 0.2rem;
+    }
+    
+    .quantity-input input {
+        width: 100%;
+        height: 38px;
+        padding: 0.375rem 0.75rem;
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+    }
+    
+    .add-to-cart-form .btn {
+        height: 38px;
+        padding: 0.375rem 0.75rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     
     .login-prompt {
@@ -172,12 +214,18 @@
         }
         
         .add-to-cart-form {
-            flex-direction: column;
-            align-items: stretch;
+            flex-direction: row;
+            align-items: flex-end;
+            flex-wrap: wrap;
         }
         
         .quantity-input {
-            width: 100%;
+            width: 120px;
+            margin-right: auto;
+        }
+        
+        .add-to-cart-form .btn {
+            margin-top: 0;
         }
     }
 </style>

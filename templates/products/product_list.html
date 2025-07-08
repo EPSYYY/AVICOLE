@@ -13,36 +13,71 @@
         </div>
     </div>
     
-    <div class="product-grid">
-        {% for product in products %}
-            <div class="product-card">
-                <div class="product-image">
-                    {% if product.image %}
-                        <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                    {% else %}
-                        <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
-                    {% endif %}
-                </div>
-                <div class="product-info">
-                    <h3 class="product-title">{{ product.name }}</h3>
-                    <p class="product-price">{{ product.price }} MAD</p>
-                    <p class="product-type">Type: {{ product.get_type_display }}</p>
-                    <p class="product-seller">Sold by: {{ product.seller.username }}</p>
-                    <div class="product-actions">
-                        <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
-                        
-                        {% if user == product.seller or user.is_admin %}
-                            <a href="{% url 'products:product_update' product.id %}" class="btn btn-secondary">Edit</a>
+    {% if poussins_products %}
+    <section class="product-section">
+        <h2>Poussins </h2>
+        <div class="product-grid">
+            {% for product in poussins_products %}
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
                         {% endif %}
                     </div>
+                    <div class="product-info">
+                        <h1 class="product-title">{{ product.name }}</h1>
+                        <p class="product-seller">by: {{ product.seller.username }}</p>
+                        <div class="product-actions">
+                            <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                            
+                            {% if user == product.seller or user.is_admin %}
+                                <a href="{% url 'products:product_update' product.id %}" class="btn btn-secondary">Edit</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </div>
-        {% empty %}
-            <div class="no-products">
-                <p>No products found matching your criteria.</p>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    {% if other_products %}
+    <section class="product-section">
+        <h2>Aliments Composés</h2>
+        <div class="product-grid">
+            {% for product in other_products %}
+                <div class="product-card">
+                    <div class="product-image">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="/static/images/placeholder-{{ product.type }}.jpg" alt="{{ product.name }}" onerror="this.src='/static/images/placeholder.jpg'">
+                        {% endif %}
+                    </div>
+                    <div class="product-info">
+                        <h1 class="product-title">{{ product.name }}</h1>
+                        <p class="product-seller">by: {{ product.seller.username }}</p>
+                        <div class="product-actions">
+                            <a href="{% url 'products:product_detail' product.id %}" class="btn">View Details</a>
+                            
+                            {% if user == product.seller or user.is_admin %}
+                                <a href="{% url 'products:product_update' product.id %}" class="btn btn-secondary">Edit</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    {% if not poussins_products and not other_products %}
+        <div class="no-products">
+            <p>No products found matching your criteria.</p>
+        </div>
+    {% endif %}
     
     {% if is_paginated %}
         <div class="pagination">
@@ -85,6 +120,36 @@
         display: flex;
         gap: 1rem;
         align-items: center;
+    }
+    
+    .product-section {
+        margin-bottom: 3rem;
+    }
+
+    .product-image {
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 1rem auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border-radius: 10px;
+        background: #f8f8f8;
+    }
+
+    .product-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    
+    .product-section h2 {
+        color: var(--primary-color);
+        margin-bottom: 1.5rem;
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
     }
     
     .product-actions {

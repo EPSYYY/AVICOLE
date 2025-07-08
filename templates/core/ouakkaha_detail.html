@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %}OUAKKAHA - Détail{% endblock %}
+{% block content %}
+<section id="groupe-ouakkaha" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/ouakkaha1.jpg" alt="Groupe OUAKKAHA" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>Gestion des reproducteurs</h2>
+            <div class="company-description">
+<p>La qualité et la maîtrise sanitaire sont au centre d’intérêt de l’entreprise. Pour cela sa stratégie repose sur la dispersion géographique et la taille des sites d’élevage soumis à des règles strictes de biosécurité.
+
+Toutes les fermes sont autorisées selon la loi 49-99 relative à la protection sanitaire des élevages avicoles, au contrôle de la production et la commercialisation des produits avicoles.
+Les bâtiments sont conçus selon des normes techniques et sanitaires, assurant les meilleures conditions d’élevage et une productivité accrue.
+
+Nos reproducteurs subissent un traitement vétérinaire exhaustif et un suivi technique rigoureux qui nous permettent d’assurer la qualité et la sécurité sanitaire des œufs à couver qui approvisionnent nos couvoirs et nos clients.
+        </div>
+    </section>
+
+    <section id="ouakkaha-mohamed" class="company-section company-flex">
+        <div class="company-content left">
+            <h2>Production des poussins d'un jour</h2>
+            <div class="company-description">
+                <p>Les deux couvoirs OUAKKAHA MOHAMED ont la maîtrise des techniques d’incubation et d’éclosion pour la production des poussins d’un jour, conformément aux standards de qualité,
+ils sont autorisés selon la Loi n° 49-99 et certifiés ISO 22000 v 2018.<br>
+
+Les œufs issus de nos troupeaux de reproducteurs sont acheminés aux couvoirs dans des conditions optimales, les œufs sont ensuite triés et placés en incubateurs puis en éclosoirs pendant un cycle de 21 jours,
+
+a l’éclosion, les poussins sont vaccinés à un jour contre certaines maladies aviaires, selon les demandes des clients.</p>
+            </div>
+        </div>
+        <div class="company-img-container right">
+            <img src="../static/images/ouakkaha2.png" alt="OUAKKAHA MOHAMED" class="company-img">
+        </div>
+    </section>
+
+    <section id="alf-issen" class="company-section company-flex">
+        <div class="company-img-container left">
+            <img src="../static/images/ouakkaha3.jpg" alt="ALF ISSEN" class="company-img">
+        </div>
+        <div class="company-content right">
+            <h2>Une traçabilité exemplaire</h2>
+            <div class="company-description">
+                <p>L’organisation, la performance des outils de production et les contrôles quotidiens garantissent une traçabilité sans faille, en amont et en aval de la chaine de production.
+                
+            </div>
+        </div>
+    </section>
+    <section id="ouakkaha-mohamed" class="company-section company-flex">
+        <div class="company-content left">
+            <h2>Des véhicules de transport autorisés conjuguant la sécurité alimentaire</h2>
+            <div class="company-description">
+                <p>La société livre à ses clients les œufs à couver et les poussins à temps et dans des meilleures conditions grâce à sa propre flotte de véhicules frigorifiques autorisés selon la loi 49/99.</p>
+            </div>
+        </div>
+        <div class="company-img-container right">
+            <img src="../static/images/ouakkaha4.jpg" alt="OUAKKAHA MOHAMED" class="company-img">
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+ .company-section {
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .company-flex {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .company-flex.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .company-img-container {
+        flex: 1 1 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .company-img {
+        max-width: 320px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        object-fit: cover;
+    }
+
+    .company-content {
+        flex: 2 1 400px;
+    }
+
+    .company-section h2 {
+        margin-bottom: 1rem;
+        color: var(--primary-color);
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        text-align: left;
+    }
+
+    .company-description {
+        text-align: justify;
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .view-more-container {
+        text-align: left;
+        margin-top: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+        .company-flex {
+            flex-direction: column !important;
+            gap: 1rem;
+        }
+        .company-img-container, .company-content {
+            flex: 1 1 100%;
+        }
+        .company-section h2 {
+            text-align: center;
+        }
+        .view-more-container {
+            text-align: center;
+        }
+    }
+    
+    .categories {
+        margin-bottom: 3rem;
+    }
+    
+    .categories h2 {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        color: var(--primary-color);
+    }
+    
+    .section-description,
+    .category-description {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #666;
+    }
+    
+    .category {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .category h2 {
+        border-bottom: 2px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .category .btn-secondary {
+        display: block;
+        width: 200px;
+        margin: 1rem auto;
+        text-align: center;
+    }
+    
+    .view-all-container {
+        text-align: center;
+        margin-top: 1.5rem;
+    }
+    
+    .view-all-container .btn-secondary {
+        padding: 0.75rem 2rem;
+        font-size: 1.1rem;
+    }
+</style>
+{% endblock %}

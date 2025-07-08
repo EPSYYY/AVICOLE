@@ -1,4 +1,10 @@
 from django.shortcuts import render, redirect
+from django.views import View
+def alfissen_detail_view(request):
+    return render(request, 'core/alfissen_detail.html')
+
+def ouakkaha_detail_view(request):
+    return render(request, 'core/ouakkaha_detail.html')
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Sum
 from products.models import Product
@@ -22,6 +28,9 @@ def home_view(request):
     }
     
     return render(request, 'core/home.html', context)
+
+
+
 
 class AdminDashboardView(UserPassesTestMixin, TemplateView):
     template_name = 'core/admin_dashboard.html'

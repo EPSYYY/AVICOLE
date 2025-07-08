@@ -17,7 +17,6 @@ from django.views.decorators.csrf import csrf_exempt
 class ProductListView(ListView):
     model = Product
     template_name = 'products/product_list.html'
-    context_object_name = 'products'
     paginate_by = 12
     login_required = False
     
@@ -59,7 +58,23 @@ class ProductListView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        
+        # Get all products based on the filter criteria
+        all_products = self.get_queryset()
+        
+        # Separate poussins and other products
+        poussins_products = all_products.filter(type=Product.POUSSINS)
+        other_products = all_products.exclude(type=Product.POUSSINS)
+        
+        # Add to context
+        context['poussins_products'] = poussins_products
+        context['other_products'] = other_products
         context['product_types'] = Product.PRODUCT_TYPES
+        
+        # Remove the paginated products from context as we're using separate lists
+        if 'products' in context:
+            del context['products']
+            
         return context
 
 class ProductDetailView(DetailView):

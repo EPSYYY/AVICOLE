@@ -261,25 +261,32 @@ label {
 
 .product-card {
     background-color: #fff;
-    border-radius: 4px;
+    border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-    transition: transform 0.3s;
 }
 
 .product-card:hover {
     transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .product-image {
-    height: 200px;
+    height: 250px;
+    width: 250px;
     overflow: hidden;
 }
 
 .product-image img {
-    width: 100%;
-    height: 100%;
+    width: 200%;
+    height: 200%;
     object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
 }
 
 .product-info {
@@ -287,8 +294,8 @@ label {
 }
 
 .product-title {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
 }
 
 .product-price {
@@ -678,4 +685,63 @@ label {
     .dashboard-container {
         padding: 1rem;
     }
+}
+
+/* Company Sections */
+.company-section {
+    margin-bottom: 2rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.company-section h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+}
+
+.company-description {
+    text-align: justify;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+}
+
+.view-more-container {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+/* Product Detail Page */
+.product-image-large-container {
+    width: 100%;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.product-image-large {
+    max-width: 100%;
+    max-height: 600px;
+    object-fit: contain;
+}
+
+/* Product Sections */
+.product-section {
+    margin-bottom: 3rem;
+}
+
+.product-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
 } 
